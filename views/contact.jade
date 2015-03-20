@@ -1,0 +1,103 @@
+extends layout
+
+block content
+  h1 Contact List
+  button(type="button", id="addBtn", class="btn btn-default", data-toggle="modal", data-target="#add") Add new contact
+  table(class='table')
+    thead
+      tr
+        th Delete
+        th Edit 
+        th Name
+        th Title
+        th Company
+        th Email
+        th Where Met
+        th Date
+        th Comments
+    tbody
+      each contact in contacts
+        tr
+          td
+            button(type="button", class="btn btn-default", data-toggle="modal", data-target="#delete#{contact._id}") &times;
+          td
+            button(type="button", class="btn btn-default", data-toggle="modal", data-target="#edit#{contact._id}") &hellip;
+          td #{contact.name.first} #{contact.name.last}
+          td #{contact.title}
+          td #{contact.company}
+          td #{contact.email}
+          td #{contact.wheremet}
+          td #{contact.date}
+          td #{contact.comments}
+        div(class="modal fade", id="delete#{contact._id}", role="dialog")
+          div(class="modal-dialog, modal-lg")
+            div(class="modal-content")
+              div(class="modal-header")
+                button(type="button", class="close", data-dismiss="modal") &times;
+                h4(class="modal-title") Delete Contact
+              div(class="modal-body")
+                form(class="form-horizontal", name="deleteContact", role="form", action="/delete/#{contact._id}" method="post")
+                  p Are you sure you want to delete #{contact.name.first} #{contact.name.last} from your contact list?
+                  button(type="submit", class="btn btn-danger") Yes
+                  button(type="button", class="btn btn-default", data-dismiss="modal") No
+        div(class="modal fade", id="edit#{contact._id}", role="dialog")
+          div(class="modal-dialog modal-lg")
+            div(class="modal-content")
+              div(class="modal-header")
+                button(type="button", class="close", data-dismiss="modal") &times;
+                h4(class="modal-title") Edit Contact
+              div(class="modal-body")
+                form(class="form-horizontal", name="editContact", role="form", action="/edit/#{contact._id}", method="post")
+                  div.form-group
+                    input#inputFirstname(class="form-control", type="text", placeholder="First name", name="firstname", value="#{contact.name.first}")
+                  div.form-group
+                    input#inputLastname(class="form-control", type="text", placeholder="Last name", name="lastname", value="#{contact.name.last}")
+                  div.form-group
+                    input#inputTitle(class="form-control", type="text", placeholder="Title", name="title", value="#{contact.title}")
+                  div.form-group
+                    input#inputCompany(class="form-control", type="text", placeholder="Company", name="company", value="#{contact.company}")
+                  div.form-group
+                    input#inputEmail(class="form-control", type="text", placeholder="Email", name="email", value="#{contact.email}")
+                  div.form-group
+                    input#inputWheremet(class="form-control", type="text", placeholder="Where Met", name="wheremet", value="#{contact.wheremet}")
+                  div.form-group
+                    input#inputDate(class="form-control", type="text", placeholder="Date", name="date", value="#{contact.date}")
+                  div.form-group
+                    input#inputComments(class="form-control", type="text", placeholder="Comments", name="comments", value="#{contact.comments}")
+                  button#btnSubmit(type="submit" class="btn btn-primary") submit
+                  button(type="button", class="btn btn-default", data-dismiss="modal") cancel
+  div(class="modal fade", id="add", role="dialog")
+    div(class="modal-dialog modal-lg")
+      div(class="modal-header")
+        button(type="button", class="close", data-dismiss="modal") &times;
+        h4(class="modal-title") Add Contact
+      div(class="modal-body")
+        form(class="form-horizontal", name="addContact", role="form", action="/newcontact" method="post")
+          div.form-group
+            input#inputFirstname(class="form-control", type="text", placeholder="First name", name="addfirstname")
+          div.form-group
+            input#inputLastname(class="form-control", type="text", placeholder="Last name", name="addlastname")
+          div.form-group
+            input#inputTitle(class="form-control", type="text", placeholder="Title", name="addtitle")
+          div.form-group
+            input#inputCompany(class="form-control", type="text", placeholder="Company", name="addcompany")
+          div.form-group
+            input#inputEmail(class="form-control", type="text", placeholder="Email", name="addemail")
+          div.form-group
+            input#inputWheremet(class="form-control", type="text", placeholder="Where Met", name="addwheremet")
+          div.form-group
+            - var today = new Date();
+            - var dd = today.getDate();
+            - var mm = today.getMonth()+1;
+            - var yyyy = today.getFullYear();
+            input#inputDate(class="form-control", type="text", placeholder="Date", name="adddate", value="#{mm}-#{dd}-#{yyyy}")
+          div.form-group
+            input#inputComments(class="form-control", type="text", placeholder="Comments", name="addcomments")
+          button#btnSubmit(type="submit" class="btn btn-primary") submit
+          button(type="button", class="btn btn-default", data-dismiss="modal") cancel
+
+
+
+
+
+
